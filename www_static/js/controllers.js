@@ -15,26 +15,22 @@ controllers.controller('HeaderController', function ($rootScope, $scope, CommonI
    $scope.$on(CommonInfo.EVENT_UPDATE, function (event, data){
       $rootScope.commonInfo = data;
    });
-
 });
 
 /* Setup Layout Part - Sidebar */
-controllers.controller('SidebarController', ['$scope', function ($scope){
+controllers.controller('SidebarController', function ($scope, $state){
    $scope.$on('$includeContentLoaded', function (){
-
    });
-}]);
+});
 
 /* Setup Layout Part - Sidebar */
 controllers.controller('PageHeadController', ['$scope', function ($scope){
    $scope.$on('$includeContentLoaded', function (){
-
    });
 }]);
 
 
 controllers.controller('FooterController', function ($rootScope, $scope){
    $scope.$on('$includeContentLoaded', function (){
-
    });
 });

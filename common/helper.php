@@ -211,7 +211,7 @@ function get_param($var, $check_type = '', $default_value = false)
       $result = $_POST[$var];
    }
 
-   if(preg_match('%(SELECT|UPDATE|DROP|INSERT|TRUNCATE|DELETE|GRANT|UNION)%smi', $result)){
+   if(preg_match('%(SELECT|UPDATE|DROP|DELETE|INTO|TRUNCATE|FROM|GRANT|UNION)\s%smi', $result)){
       return '';
    }
 

@@ -35,12 +35,32 @@ module.config(function ($stateProvider, $urlRouterProvider){
             url: "/{id:int}",
             templateUrl: "pages/customer/item.html",
             controller: 'CustomerItemController',
-            resolve: {
+            resolve: {}
+         })
 
+      // executor
+         .state("executor", {
+            abstract: true,
+            url: "/executor",
+            template: "<div ui-view></div>",
+            controller: "ExecutorCommonController"
+         })
+         .state("executor.index", {
+            url: '/index',
+            controller: function ($scope, $state, $stateParams){
+               // дефолтные параметры
+               $state.go('executor.list', {
+                  'page': '1'
+               }, {location: 'replace'});
             }
+         })
+         .state("executor.list", {
+            url: "/list/{page}",
+            templateUrl: "/pages/executor/index.html",
+            controller: 'ExecutorListController'
          });
    ;
 
-   //$urlRouterProvider.when('/', '/customer/index');
-   //$urlRouterProvider.otherwise("/customer/index");
+   $urlRouterProvider.when('/', '/customer/index');
+   $urlRouterProvider.otherwise("/customer/index");
 });

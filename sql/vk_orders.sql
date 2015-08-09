@@ -42,9 +42,11 @@ CREATE TABLE `order` (
   KEY `agrigated` (`customer_id`,`status`,`deleted_is`),
   KEY `created_at_d` (`created_at_d`),
   KEY `executor_id` (`executor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `order` */
+
+insert  into `order`(`id`,`created_at_d`,`created_at_dt`,`customer_id`,`executor_id`,`title`,`description`,`amount4customer`,`amount4executor`,`amount4system`,`status`,`status_at_dt`,`deleted_is`,`deleted_at_dt`) values (1,'2015-08-09','2015-08-09 17:10:22',2,NULL,'Небольшое тестовое задание','Кликни и разбогатей','100.00','0.00','0.00','new','2015-08-09 17:10:27','no',NULL),(2,'2015-08-09','2015-08-09 17:13:10',2,NULL,'Еще одно задание','Еще один клик до богатства','100.00','0.00','0.00','new','2015-08-09 17:13:10','no',NULL),(3,'2015-08-09','2015-08-09 21:24:51',2,NULL,'Задание номер три','Снова кликаем и продолжаем рубить баблос','100.00','0.00','0.00','new','2015-08-09 21:24:51','no',NULL),(4,'2015-08-09','2015-08-09 21:25:13',2,NULL,'Задание номер 4','А вот и денежка капает','100.00','0.00','0.00','new','2015-08-09 21:25:13','no',NULL),(5,'2015-08-09','2015-08-09 21:25:43',2,NULL,'Вот и хавчик идет','Хрум-хрум-хрум','100.00','0.00','0.00','new','2015-08-09 21:25:43','no',NULL),(6,'2015-08-09','2015-08-09 21:26:37',2,NULL,'Задание исполни это','На свой счет рублик получи желанный','100.00','0.00','0.00','new','2015-08-09 21:26:37','no',NULL),(7,'2015-08-09','2015-08-09 21:27:20',2,NULL,'Укради Мехос с Глоркса','Стань вандалом и героем супа существ','100.00','0.00','0.00','new','2015-08-09 21:27:25','no',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

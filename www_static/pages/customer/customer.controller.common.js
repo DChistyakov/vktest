@@ -1,2 +1,3 @@
-controllers.controller('CustomerCommonController', function ($rootScope, $scope, $timeout){
+controllers.controller('CustomerCommonController', function ($rootScope, $scope, $timeout, $scope){
+   $rootScope.state = 'customer';
 });

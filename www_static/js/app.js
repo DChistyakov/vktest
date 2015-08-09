@@ -24,6 +24,13 @@ module.run(function ($rootScope, $templateCache){
    });
 });
 
+module.config(function ($httpProvider, paginationConfig){
+   paginationConfig['firstText'] = '«';
+   paginationConfig['lastText'] = '»';
+   paginationConfig['previousText'] = '‹';
+   paginationConfig['nextText'] = '›';
+});
+
 module.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider){
    $ocLazyLoadProvider.config({
       cssFilesInsertBefore: 'ng_load_plugins_before' // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files

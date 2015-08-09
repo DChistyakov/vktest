@@ -46,9 +46,9 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="/assets/admin/layout4/css/layout.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/admin/layout4/css/themes/light.css" rel="stylesheet" type="text/css" id="style_color"/>
     <link href="/assets/admin/layout4/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/global/plugins/angular-toastr/dist/angular-toastr.min.css" rel="stylesheet">
+    <link href="/css/theme-override.css" rel="stylesheet">
     <!-- END THEME STYLES -->
-
-    <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 <!-- END HEAD -->
 
@@ -62,7 +62,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
-<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo page-on-load"
+<body ng-controller="SidebarController" class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo page-on-load"
       ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed}">
 
 <!-- BEGIN PAGE SPINNER -->
@@ -161,6 +161,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <script src="/pages/customer/customer.controller.common.js"></script>
 <script src="/pages/customer/customer.controller.list.js"></script>
+<script src="/pages/executor/executor.controller.common.js"></script>
+<script src="/pages/executor/executor.controller.list.js"></script>
 <script src="/js/app_router.js"></script>
 <!-- END APP LEVEL ANGULARJS SCRIPTS -->
 

@@ -1,6 +1,6 @@
 var resources = angular.module('VkTestApp.resources', []);
 
-resources.factory('VkTestResource', function ($resource){
+resources.factory('VkTestResource', function ($resource, $cookies){
    return function (url, data, additionalMethods, service){
       additionalMethods = additionalMethods || {};
       additionalMethods = angular.extend({
@@ -8,7 +8,7 @@ resources.factory('VkTestResource', function ($resource){
          'create': {method: 'POST'},
          'save': {method: 'PUT'},
          'executeAction': {
-            url: '/' + service + '/execute/:action',
+            url: '///dynamic.vk.dchistyakov.ru/index.php?module=' + service + '&op=:action&session_bid=' + $cookies.get('session_bid') + '&session_key=' + $cookies.get('session_key'),
             method: 'POST',
             params: {action: '@action'}
          }
@@ -40,6 +40,7 @@ resources.factory('VkTestResourcesLoaderGenerator', function ($q){
             } else{
                items = ajax.data;
             }
+            items._meta = ajax.meta;
             delay.resolve(items);
          }, function (){
             delay.reject('Fail load');
@@ -81,19 +82,11 @@ resources.factory('VkTestOneResourceLoaderGenerator', function ($q){
 
 
 resources.factory('Order', function (VkTestResource, $cookies){
-   return VkTestResource('///dynamic.vk.dchistyakov.ru/index.php?module=customer&op=getOrders&session_bid=' + $cookies.get('session_bid') + '&session_key=' + $cookies.get('session_key') + '&id=:id', {id: '@id'}, {}, 'order');
+   return VkTestResource('///dynamic.vk.dchistyakov.ru/index.php?module=customer&op=getOrders&session_bid=' + $cookies.get('session_bid') + '&session_key=' + $cookies.get('session_key') + '&id=:id', {id: '@id'}, {}, 'customer');
 });
 
 resources.factory('OrdersLoader', function (VkTestResourcesLoaderGenerator, Order){
    return VkTestResourcesLoaderGenerator(Order);
-});
-
-resources.factory('Project', function (VkTestResource){
-   return VkTestResource('/project/:id', {id: '@id'}, {}, 'project');
-});
-
-resources.factory('ProjectLoader', function (VkTestOneResourceLoaderGenerator, Project){
-   return VkTestOneResourceLoaderGenerator(Project);
 });
 
 resources.factory('Info', function (VkTestResource, $cookies){
