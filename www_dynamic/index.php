@@ -8,6 +8,9 @@
 
 require_once('../init.php');
 
+// accessible from static via AJAX
+header('Access-Control-Allow-Origin: http://static.vk.dchistyakov.ru');
+
 // module detector
 $module = get_param('module', 'striphtml');
 
