@@ -29,6 +29,14 @@ switch($module){
       require_once(ROOT_PATH . '/modules/login.php');
       break;
 
+   case 'common':
+      require_once(ROOT_PATH . '/modules/common.php');
+      break;
+
+   case 'customer':
+      require_once(ROOT_PATH . '/modules/customer.php');
+      break;
+
    default:
       echo "нет экшена";
       break;

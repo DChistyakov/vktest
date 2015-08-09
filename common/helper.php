@@ -31,6 +31,24 @@ function qfr($query)
    return mysql_fetch_assoc($result);
 }
 
+function qfa($query)
+{
+   $result = query($query);
+
+   if(!$result){
+      $message = 'Неверный запрос: ' . mysql_error() . "\n";
+      $message .= '<br>Запрос целиком: ' . $query;
+      die($message);
+   }
+
+   $data = array();
+   while($row = mysql_fetch_assoc($result)){
+      $data[] = $row;
+   }
+
+   return $data;
+}
+
 function qfnr($query)
 {
    $result = query($query);
@@ -118,9 +136,11 @@ function session_revoke()
    global $config;
 
    // session data
-   if(isset($_COOKIE['session_bid']) AND isset($_COOKIE['session_key'])){
-      $session_bid = $_COOKIE['session_bid'];
-      $session_key = $_COOKIE['session_key'];
+   if((isset($_COOKIE['session_bid']) AND isset($_COOKIE['session_key']))
+         OR (get_param('session_bid') AND get_param('session_bid') != '' AND get_param('session_key') AND get_param('session_key') != '')
+   ){
+      $session_bid = isset($_COOKIE['session_bid']) ? $_COOKIE['session_bid'] : get_param('session_bid');
+      $session_key = isset($_COOKIE['session_bid']) ? $_COOKIE['session_key'] : get_param('session_key');
 
       $sql = sprintf('SELECT id FROM ' . $config['table']['session'] . ' WHERE session_key_bin_hash = UNHEX(MD5("%s")) AND id = "%s"', mysql_real_escape_string($session_key), intval($session_bid));
       $session_data = qfr($sql);
@@ -140,16 +160,16 @@ function is_logged_in()
 {
    global $config;
 
-   if(!isset($_COOKIE['session_bid'])){
+   if(!isset($_COOKIE['session_bid']) AND (!get_param('session_bid') OR get_param('session_bid') == '')){
       return false;
    }
 
-   if(!isset($_COOKIE['session_key'])){
+   if(!isset($_COOKIE['session_key']) AND (!get_param('session_key') OR get_param('session_key') == '')){
       return false;
    }
 
-   $session_bid = $_COOKIE['session_bid'];
-   $session_key = $_COOKIE['session_key'];
+   $session_bid = isset($_COOKIE['session_bid']) ? $_COOKIE['session_bid'] : get_param('session_bid');
+   $session_key = isset($_COOKIE['session_bid']) ? $_COOKIE['session_key'] : get_param('session_key');
 
    // session data
    $sql = sprintf('SELECT * FROM ' . $config['table']['session'] . ' WHERE session_key_bin_hash = UNHEX(MD5("%s")) AND id = "%s"', mysql_real_escape_string($session_key), intval($session_bid));

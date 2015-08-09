@@ -1,0 +1,81 @@
+<!-- BEGIN PAGE BREADCRUMB -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="dashboard-stat2" style="padding: 15px 15px 0px 15px;">
+            <div class="btn-group btn-theme-panel" style="float:right; margin-top: 4px;">
+                <a href><i class="icon-plus" tooltip-placement="left"
+                           tooltip="Новое задание"
+                           style="font-size:28px;"></i></a>
+            </div>
+
+            <ul class="page-breadcrumb breadcrumb">
+                <li class="active">
+                    Ваши задания
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BREADCRUMB -->
+
+<!-- BEGIN PROJECT PORTLET-->
+<div class="portlet light" block-while="dataIsLoading" block-message="Загрузка..">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject bold uppercase" ng-class="{'font-green-sharp': item.status == 'ok'}" style="cursor: pointer;"
+
+                  tooltip-placement="right"
+                  tooltip="Настроить проект">{{ item.name }}</span>
+            <span class="caption-helper">{{ item.domain }}</span>
+        </div>
+    </div>
+    <div class="table-scrollable">
+        <table class="table table-bordered table-hover table-striped table-vcentered table-centered">
+            <thead>
+            <tr>
+                <th style="width: 70px;">
+                    ID
+                </th>
+                <th style="text-align: left; min-width: 200px;">
+                    Описание задания
+                </th>
+                <th style="width: 75px;">
+                    <i style="cursor: help;" class="fa fa-money" tooltip-placement="left"
+                       tooltip="Вознаграждение"></i>
+                </th>
+                <th style="width: 45px; margin: 10px 0">
+
+                </th>
+            </tr>
+            </thead>
+
+
+            <tbody ng-if="data.length < 1">
+            <tr style="background: #EDEDED; font-weight: 600">
+                <td align="center" colspan="9">
+                    На данный момент у Вас не создано ниодно задания. <a href ng-click="create()">Создать</a>?
+                </td>
+            </tr>
+            </tbody>
+
+
+            <tbody ng-if="data.length > 0">
+            <tr ng-repeat="item in data">
+                <td>{{ item.id }}</td>
+                <td>
+                    {{ item.title }}
+                    <br><span style="font-size: 10px;">Описание: {{ item.description }}</span>
+                </td>
+                <td>{{ item.amount4customer }}</td>
+                <td>
+                    <a ng-click="deleteItem($index, 0, 0, 'project', item)" style="margin-left:10px;"><i class="fa fa-trash-o"
+                                                                                                         tooltip-placement="left"
+                                                                                                         tooltip="Удалить задание"></i></a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<!-- END PROJECT PORTLET-->

@@ -36,8 +36,8 @@ function login()
       }
 
       // setting cookies
-      setcookie("session_key", $session_key, time() + $lifetime, "/");
-      setcookie("session_bid", $result['data']['session_bid'], time() + $lifetime, "/");
+      setcookie("session_key", $session_key, time() + $lifetime, "/", 'vk.dchistyakov.ru');
+      setcookie("session_bid", $result['data']['session_bid'], time() + $lifetime, "/", 'vk.dchistyakov.ru');
 
       output(1, array('session_id' => $result['data']['session_bid']));
    }
