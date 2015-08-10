@@ -6,7 +6,8 @@
  * Time: 12:37
  */
 
-function getOrders(){
+function getOrders()
+{
    global $config;
 
    // limits
@@ -24,13 +25,15 @@ function getOrders(){
 
    $meta = array(
          'totalCount' => $meta['items'],
-         'currentPage' => $page
+         'currentPage' => $page + 1,
+         'pageCount' => ceil($meta['items'] / 5)
    );
 
    output(1, $data, $meta);
 }
 
-function reserveOrder(){
+function reserveOrder()
+{
    global $config, $user;
 
    $id = intval(get_param('id'));

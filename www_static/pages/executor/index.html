@@ -73,5 +73,9 @@
 
         </table>
     </div>
+
+    <pagination total-items="data._meta.totalCount" ng-model="data._meta.currentPage" ng-change="ChangeState(1)"
+                items-per-page="5" class="pagination-sm" boundary-links="true"
+                rotate="false" num-pages="numPages" max-size="10"></pagination>
 </div>
 <!-- END PROJECT PORTLET-->

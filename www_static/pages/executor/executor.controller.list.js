@@ -1,5 +1,9 @@
 controllers.controller('ExecutorListController', function ($scope, $state, $rootScope, EOrdersLoader, EOrder, ConfirmDialog, $timeout, $modal, toastr, $stateParams){
 
+   $scope.filter = {
+      page: parseInt($stateParams.page) || '1'
+   };
+
    // загружаем данные
    $scope.dataIsLoading = true;
    EOrdersLoader({
@@ -26,5 +30,12 @@ controllers.controller('ExecutorListController', function ($scope, $state, $root
             return true;
          });
       });
+   }
+
+   $scope.ChangeState = function (isPageChanged){
+      var stateParams = angular.extend($scope.filter, {
+         page: (isPageChanged) ? $scope.data._meta.currentPage : 1
+      });
+      $state.go('executor.list', stateParams, {location: 'replace'});
    }
 });
