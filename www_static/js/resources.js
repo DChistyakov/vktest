@@ -96,3 +96,7 @@ resources.factory('Info', function (VkTestResource, $cookies){
 resources.factory('CommonInfoLoader', function (VkTestOneResourceLoaderGenerator, Info){
    return VkTestOneResourceLoaderGenerator(Info);
 });
+
+resources.factory('Login', function (VkTestResource){
+   return VkTestResource('//dynamic.vk.dchistyakov.ru/index.php?module=login&op=login&username=:username', {username: '@username'}, {}, 'login');
+});

@@ -37,7 +37,13 @@ function login()
 
       // setting cookies
       setcookie("session_key", $session_key, time() + $lifetime, "/", 'vk.dchistyakov.ru');
-      setcookie("session_bid", $result['data']['session_bid'], time() + $lifetime, "/", 'vk.dchistyakov.ru');
+      setcookie("session_bid", $result['data']['session_bid'], time() + $lifetime, "/", '.vk.dchistyakov.ru');
+
+      $redirect_url = get_param('redirect_url', 'striphtml');
+      if($redirect_url AND $redirect_url != ''){
+         header('Location: http://static.vk.dchistyakov.ru/', true, 302);
+         exit;
+      }
 
       output(1, array('session_id' => $result['data']['session_bid']));
    }
@@ -53,7 +59,8 @@ function logout()
       print_jsond($result);
    }
 
-   output(1);
+   header('Location: http://static.vk.dchistyakov.ru/', true, 302);
+   exit;
 }
 
 $op = get_param('op', 'striphtml');

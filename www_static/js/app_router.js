@@ -31,12 +31,6 @@ module.config(function ($stateProvider, $urlRouterProvider){
             templateUrl: "/pages/customer/index.html",
             controller: 'CustomerListController'
          })
-         .state("customer.item", {
-            url: "/{id:int}",
-            templateUrl: "pages/customer/item.html",
-            controller: 'CustomerItemController',
-            resolve: {}
-         })
 
       // executor
          .state("executor", {
@@ -58,8 +52,21 @@ module.config(function ($stateProvider, $urlRouterProvider){
             url: "/list/{page}",
             templateUrl: "/pages/executor/index.html",
             controller: 'ExecutorListController'
+         })
+
+      // login
+         .state("login", {
+            url: '/login',
+            templateUrl: "/pages/login/index.html",
+            controller: 'LoginCommonController'
+         })
+
+      // login
+         .state("logout", {
+            url: '/logout',
+            controller: 'LogoutCommonController',
+            template: "<div ui-view></div>"
          });
-   ;
 
    $urlRouterProvider.when('/', '/customer/index');
    $urlRouterProvider.otherwise("/customer/index");

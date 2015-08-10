@@ -1,0 +1,35 @@
+<link href="/assets/admin/pages/css/lock.css" rel="stylesheet" type="text/css"/>
+
+<div class="page-lock" block-while="dataIsLoading" block-message="Загрузка..">
+    <div class="page-logo">
+        <a class="brand" href="index.html">
+            <img src="/assets/admin/layout4/img/logo-big.png" alt="logo"/>
+        </a>
+    </div>
+    <div class="page-body">
+        <div class="lock-head">
+            Необходимо войти
+        </div>
+        <div class="lock-body">
+            <form class="lock-form pull-left" name="loginForm">
+                <div class="form-group" ng-class="{'has-error': loginFail}">
+                    <h4 class="control-label">Имя пользователя</h4>
+
+                    <div class="input-icon right">
+                        <i ng-if="loginFail" class="fa fa-exclamation tooltips" tooltip-placement="right" tooltip="Неверное имя пользователя"></i>
+                        <input type="text" ng-focus="clearLoginError()" class="form-control" ng-model="loginInput">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <a ng-click="login()" class="btn btn-success uppercase">Войти</a>
+                </div>
+            </form>
+        </div>
+        <div class="lock-bottom" style="color: #fafafa">
+            Вы можете быть: customer, executor
+        </div>
+    </div>
+    <div class="page-footer-custom">
+        2014 &copy; Metronic. Admin Dashboard Template.
+    </div>
+</div>

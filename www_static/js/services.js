@@ -177,7 +177,7 @@ services.factory('ConfirmDialogNumber', function ($modal){
    }
 });
 
-services.factory('CommonInfo', function ($rootScope, $q, toastr, $timeout, CommonInfoLoader){
+services.factory('CommonInfo', function ($rootScope, $q, $state, toastr, $timeout, CommonInfoLoader){
    var INFO = null;
    var timerStarted = false;
    var timer = null;
@@ -206,8 +206,14 @@ services.factory('CommonInfo', function ($rootScope, $q, toastr, $timeout, Commo
          var self = this;
          var delay = $q.defer();
          CommonInfoLoader().then(function (response){
-            if(typeof response.status == 'undefined'){
-               document.location = '/user/login';
+            if(typeof response.data.code != 'undefined' && response.data.code == 1000){
+               console.log($state['current'].name);
+
+               $state.go('login', {
+                  redirect_url: $state['current'].name
+               }, {location: 'replace'});
+
+               return true;
             }
 
             if(response.status > 0){

@@ -2,9 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: Dima
- * Date: 09.08.2015
- * Time: 13:07
+ * Date: 08.08.2015
+ * Time: 12:47
  */
+
 
 /*
  * custom query (timers, loggers, etc)
@@ -42,7 +43,7 @@ function qfa($query)
    }
 
    $data = array();
-   while($row = mysql_fetch_assoc($result)){
+   while ($row = mysql_fetch_assoc($result)) {
       $data[] = $row;
    }
 
@@ -137,8 +138,7 @@ function session_revoke()
 
    // session data
    if((isset($_COOKIE['session_bid']) AND isset($_COOKIE['session_key']))
-         OR (get_param('session_bid') AND get_param('session_bid') != '' AND get_param('session_key') AND get_param('session_key') != '')
-   ){
+         OR (get_param('session_bid') AND get_param('session_bid') != '' AND get_param('session_key') AND get_param('session_key') != '')){
       $session_bid = isset($_COOKIE['session_bid']) ? $_COOKIE['session_bid'] : get_param('session_bid');
       $session_key = isset($_COOKIE['session_bid']) ? $_COOKIE['session_key'] : get_param('session_key');
 
@@ -150,8 +150,8 @@ function session_revoke()
       query($sql);
    }
 
-   setcookie("session_key", 'deleted', time(), "/");
-   setcookie("session_bid", 0, time(), "/");
+   setcookie("session_key", 'deleted', time(), "/", 'vk.dchistyakov.ru');
+   setcookie("session_bid", 0, time(), "/", 'vk.dchistyakov.ru');
 
    return array('status' => 1);
 }
@@ -177,6 +177,12 @@ function is_logged_in()
 
    // is expired
    if(strtotime($session_data['expire_at_dt']) < time()){
+      session_revoke();
+      return false;
+   }
+
+   // useragent (just to show that i understand that this should be encrypted)
+   if(md5($_SERVER['HTTP_USER_AGENT']) != md5($session_data['user_agent'])){
       session_revoke();
       return false;
    }
@@ -234,7 +240,7 @@ function print_jsond($array)
    exit(json_encode($array));
 }
 
-function output($status, $payload = array())
+function output($status, $payload = array(), $meta = array())
 {
-   print_jsond(array('status' => $status, 'data' => $payload));
+   print_jsond(array('status' => $status, 'data' => $payload, 'meta' => $meta));
 }
