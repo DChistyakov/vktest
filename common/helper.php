@@ -67,7 +67,7 @@ function is_user_exists($id)
 {
    global $config;
 
-   $sql = sprintf('SELECT id FROM ' . $config['table']['user'] . ' WHERE id = "%s"', intval($id));
+   $sql = sprintf('SELECT id FROM ' . $config['table']['user'] . ' WHERE role != "system" AND id = "%s"', intval($id));
    return qfnr($sql) > 0 ? true : false;
 }
 
@@ -75,7 +75,15 @@ function is_username_exists($username)
 {
    global $config;
 
-   $sql = sprintf('SELECT id FROM ' . $config['table']['user'] . ' WHERE username_bin_hash = UNHEX(MD5("%s"))', mysql_real_escape_string($username));
+   $sql = sprintf('SELECT id FROM ' . $config['table']['user'] . ' WHERE role != "system" AND username_bin_hash = UNHEX(MD5("%s"))', mysql_real_escape_string($username));
+   return qfnr($sql) > 0 ? true : false;
+}
+
+function is_order_exists($id)
+{
+   global $config;
+
+   $sql = sprintf('SELECT id FROM ' . $config['table']['order'] . ' WHERE id = "%s" AND deleted_is = "no" AND `status` = "reserved"', intval($id));
    return qfnr($sql) > 0 ? true : false;
 }
 
@@ -190,25 +198,13 @@ function is_logged_in()
    return $session_data['user_id'];
 }
 
-function get_param($var, $check_type = '', $default_value = false)
+function get_param($var, $check_type = '')
 {
-   global $_GET, $_POST, $argv, $GLOBALS;
-   $result = $default_value !== false ? $default_value : false;
-   if(isset($GLOBALS) && isset($GLOBALS['system_vars']) && isset($GLOBALS['system_vars'][$var])){
-      $result = $GLOBALS['system_vars'][$var];
-   }
-   if(isset($argv)){
-      for($i = 1; $i < count($argv); $i++){
-         $val = explode("=", $argv[$i]);
-         if(isset($val[1])){
-            $vals[ltrim($val[0], "-")] = $val[1];
-         } else{
-            $vals[ltrim($argv[$i], "-")] = true;
-         }
-      }
-      if(isset($vals[$var])){
-         $result = $vals[$var];
-      }
+   global $_GET, $_POST;
+   // decode json
+   $entityBody = file_get_contents('php://input');
+   if ( $data = json_decode($entityBody, true) ) {
+      $_POST = $data;
    }
    if(isset($_GET) && isset($_GET[$var])){
       $result = $_GET[$var];
@@ -217,12 +213,16 @@ function get_param($var, $check_type = '', $default_value = false)
       $result = $_POST[$var];
    }
 
-   if(preg_match('%(SELECT|UPDATE|DROP|DELETE|INTO|TRUNCATE|FROM|GRANT|UNION)\s%smi', $result)){
+   if(!isset($result)){
+      return '';
+   }
+
+   if(is_string($result) AND preg_match('%(SELECT|UPDATE|DROP|DELETE|INTO|TRUNCATE|FROM|GRANT|UNION)\s%smi', $result)){
       return '';
    }
 
    if($check_type == 'striphtml'){
-      return strip_tags($result);
+      return stripslashes(strip_tags($result));
    } elseif($check_type == 'safehtml'){
       $patterns = array("/\&/", "/%/", "/</", "/>/", '/"/', "/'/", "/\(/", "/\)/", "/\+/", "/-/");
       $replacements = array("&amp;", "&#37;", "&lt;", "&gt;", "&quot;", "&#39;", "&#40;", "&#41;", "&#43;", "&#45;");

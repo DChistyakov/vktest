@@ -56,6 +56,4 @@ module.factory('settings', ['$rootScope', function ($rootScope){
 
 module.config(['$httpProvider', function ($httpProvider){
    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-   //$httpProvider.defaults.headers.common['Accept'] = 'application/json, text/javascript';
-   //$httpProvider.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
 }]);

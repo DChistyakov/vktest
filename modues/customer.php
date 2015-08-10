@@ -33,9 +33,63 @@ function getOrders()
 
 function deleteItem()
 {
+   global $config, $user;
+
    $id = intval(get_param('id'));
 
-   output(1);
+   $sql = sprintf('UPDATE   ' . $config['table']['order'] . '
+                     SET      deleted_is = "yes",
+                              deleted_at_dt = NOW()
+                     WHERE    customer_id = "%s"
+                              AND deleted_is = "no"
+                              AND id = "%s"
+                     ORDER BY id',
+         intval($user['id']),
+         intval($id));
+   if(query($sql)){
+      output(1);
+   }
+
+   output(0, array('title' => 'Задание не найдено', 'code' => 33));
+}
+
+function createItem()
+{
+   global $config, $user;
+
+   $title = get_param('title', 'striphtml');
+   $descr = get_param('descr', 'striphtml');
+   $amount = floatval(get_param('amount'));
+
+   if(!$title OR $title == ''){
+      output(0, array('title' => 'Не указано название задания', 'code' => 30));
+   }
+
+   if(!$descr OR $descr == ''){
+      output(0, array('title' => 'Не указано описание задания', 'code' => 31));
+   }
+
+   if(!$amount OR $amount <= 0){
+      output(0, array('title' => 'Не указано вознаграждение за задания', 'code' => 32));
+   }
+
+   $sql = sprintf('INSERT INTO ' . $config['table']['order'] . '
+            SET   created_at_d = CURDATE(),
+                  created_at_dt = NOW(),
+                  customer_id = "%s",
+                  title = "%s",
+                  description = "%s",
+                  amount4customer = "%s"',
+         intval($user['id']),
+         mysql_real_escape_string($title),
+         mysql_real_escape_string($descr),
+         mysql_real_escape_string($amount));
+
+   if(query($sql)){
+      output(1, array('id' => mysql_insert_id()));
+   }
+
+   output(0, array('title' => 'Ошибка записи в БД', 'code' => 1001));
 }
 
 $op = get_param('op', 'striphtml');
@@ -46,6 +100,10 @@ switch($op){
 
    case 'deleteItem':
       deleteItem();
+      break;
+
+   case 'createItem':
+      createItem();
       break;
 
    default:

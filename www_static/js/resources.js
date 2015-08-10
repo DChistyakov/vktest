@@ -89,6 +89,14 @@ resources.factory('OrdersLoader', function (VkTestResourcesLoaderGenerator, Orde
    return VkTestResourcesLoaderGenerator(Order);
 });
 
+resources.factory('EOrder', function (VkTestResource, $cookies){
+   return VkTestResource('///dynamic.vk.dchistyakov.ru/index.php?module=executor&op=getOrders&session_bid=' + $cookies.get('session_bid') + '&session_key=' + $cookies.get('session_key') + '&id=:id', {id: '@id'}, {}, 'executor');
+});
+
+resources.factory('EOrdersLoader', function (VkTestResourcesLoaderGenerator, EOrder){
+   return VkTestResourcesLoaderGenerator(EOrder);
+});
+
 resources.factory('Info', function (VkTestResource, $cookies){
    return VkTestResource('//dynamic.vk.dchistyakov.ru/index.php?module=common&op=getInfo&session_bid=' + $cookies.get('session_bid') + '&session_key=' + $cookies.get('session_key'), {}, {}, 'common-info');
 });
@@ -97,6 +105,6 @@ resources.factory('CommonInfoLoader', function (VkTestOneResourceLoaderGenerator
    return VkTestOneResourceLoaderGenerator(Info);
 });
 
-resources.factory('Login', function (VkTestResource){
-   return VkTestResource('//dynamic.vk.dchistyakov.ru/index.php?module=login&op=login&username=:username', {username: '@username'}, {}, 'login');
+resources.factory('Login', function (VkTestResource, $cookies){
+   return VkTestResource('//dynamic.vk.dchistyakov.ru/index.php?module=login&op=login&username=:username', {id: '@id'}, {}, 'login');
 });

@@ -10,19 +10,9 @@
  * Исполнитель кликает "выполнить" на заказе, ему на счет зачисляется сумма за вычетом комиссии системы.
  */
 
-function process_payment($customer, $executor, $order, $tax)
+function process_payment($order, $tax)
 {
    global $config;
-
-   // let`s check customer
-   if(!is_int($customer) OR !is_user_exists($customer)){
-      return array('status' => 0, 'data' => array('title' => 'Заказчик не найден.', 'code' => 1));
-   }
-
-   // let`s check executor
-   if(!is_int($executor) OR !is_user_exists($executor)){
-      return array('status' => 0, 'data' => array('title' => 'Исполнитель не найден.', 'code' => 2));
-   }
 
    // let`s check order
    if(!is_int($order) OR !is_order_exists($order)){
@@ -35,10 +25,22 @@ function process_payment($customer, $executor, $order, $tax)
    }
 
    $order_details = get_order_details($order);
+   $customer = intval($order_details['customer_id']);
+   $executor = intval($order_details['executor_id']);
 
    // amount validator (must be higher than 0)
    if(!is_numeric($order_details['amount4customer']) OR $order_details['amount4customer'] <= 0 OR $order_details['amount4customer'] >= 1000000){
       return array('status' => 0, 'data' => array('title' => 'Неверная сумма операции.', 'code' => 4));
+   }
+
+   // let`s check customer
+   if(!is_int($customer) OR !is_user_exists($customer)){
+      return array('status' => 0, 'data' => array('title' => 'Заказчик не найден.', 'code' => 1));
+   }
+
+   // let`s check executor
+   if(!is_int($executor) OR !is_user_exists($executor)){
+      return array('status' => 0, 'data' => array('title' => 'Исполнитель не найден.', 'code' => 2));
    }
 
    // calculating
@@ -76,7 +78,8 @@ function process_payment($customer, $executor, $order, $tax)
             amount4executor = "' . $amount4executor . '",
             amount4system = "' . $amount4system . '",
             executor_id = "' . $executor . '"
-      WHERE id = "' . $order . '"');
+      WHERE `status` = "reserved"
+            AND id = "' . $order . '"');
 
    query('INSERT INTO ' . $config['table']['transaction'] . '
       SET   created_at_d = CURDATE(),

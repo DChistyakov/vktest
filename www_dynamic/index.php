@@ -37,7 +37,11 @@ switch($module){
       require_once(ROOT_PATH . '/modules/customer.php');
       break;
 
+   case 'executor':
+      require_once(ROOT_PATH . '/modules/executor.php');
+      break;
+
    default:
-      echo "нет экшена";
+      showErrorPage('Не найдено', 'Запрашиваемая страничка не найдена.', 404);
       break;
 }

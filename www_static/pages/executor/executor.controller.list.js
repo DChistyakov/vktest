@@ -1,40 +1,30 @@
-controllers.controller('ExecutorListController', function ($scope, $state, $rootScope, OrdersLoader, ConfirmDialogNumber, $timeout, $modal, toastr, $stateParams){
+controllers.controller('ExecutorListController', function ($scope, $state, $rootScope, EOrdersLoader, EOrder, ConfirmDialog, $timeout, $modal, toastr, $stateParams){
 
-         // загружаем данные
-         $scope.dataIsLoading = true;
-         OrdersLoader({
-            'page': $stateParams.page,
-         }).then(function (response){
-            $scope.dataIsLoading = false;
-            $scope.data = response;
+   // загружаем данные
+   $scope.dataIsLoading = true;
+   EOrdersLoader({
+      'page': $stateParams.page,
+   }).then(function (response){
+      $scope.dataIsLoading = false;
+      $scope.data = response;
+   });
+
+
+   // delete items
+   $scope.reserveItem = function (key, id){
+      var dialogResult = ConfirmDialog('Необходимо подтверждение', 'Просто окошко, что после подтверждение Вам на счет капнет денежка.', 'Подтверждаю', 'Отмена', '', false, true);
+      dialogResult.then(function (){
+
+         EOrder.executeAction({action: 'reserveOrder', id: id}).$promise.then(function (ajax){
+            if(typeof(ajax.status) == 'undefined' || ajax.status === 0){
+               toastr.error(ajax.data.title, 'Ошибка');
+               return true;
+            }
+
+            $scope.data.splice(key, 1);
+            toastr.success('Задание успешно выполнено', 'Успешно');
+            return true;
          });
-
-
-         // delete items
-         $scope.deleteItem = function (project_key, campaign_key, group_key, type, item){
-            var dialogResult = ConfirmDialogNumber();
-            dialogResult.then(function (){
-
-               if(type == 'campaign'){
-                  var res = new Campaign(item);
-               } else if(type == 'group'){
-                  var res = new Group(item);
-               } else{
-                  var res = new Project(item);
-               }
-
-               return res.$delete().then(function (data){
-                  if(type == 'campaign'){
-                     $scope.data[project_key].campaigns.splice(campaign_key, 1);
-                  } else if(type == 'group'){
-                     $scope.data[project_key].campaigns[campaign_key].groups.splice(group_key, 1);
-                  } else{
-                     $scope.data.splice(project_key, 1);
-                  }
-
-                  return true;
-               });
-            });
-         }
-      }
-);
+      });
+   }
+});
