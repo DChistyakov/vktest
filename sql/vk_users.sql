@@ -4,6 +4,7 @@ MySQL - 5.5.41-0ubuntu0.12.04.1 : Database - vk_users
 *********************************************************************
 */
 
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -43,7 +44,7 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`created_at_d`,`created_at_dt`,`username`,`username_bin_hash`,`balance`,`expenses_today`,`expenses_yesterday`,`expenses_month`,`expenses_total`,`income_today`,`income_yesterday`,`income_month`,`income_total`,`role`) values (1,'2015-08-09','2015-08-09 12:39:22','system','Tµ0rTî¸øé4>qòv','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','system'),(2,'2015-08-09','2015-08-09 12:39:22','customer','‘ì“$u0HÀ	mjiO†','5000.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','user'),(3,'2015-08-09','2015-08-09 12:39:23','executor','±’Y9öl.F%ªÛÊ¿ê','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','user');
+insert  into `user`(`id`,`created_at_d`,`created_at_dt`,`username`,`username_bin_hash`,`balance`,`expenses_today`,`expenses_yesterday`,`expenses_month`,`expenses_total`,`income_today`,`income_yesterday`,`income_month`,`income_total`,`role`) values (1,'2015-08-09','2015-08-09 12:39:22','system','Tï¿½0rTï¿½ï¿½ï¿½4>qï¿½v','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','system'),(2,'2015-08-09','2015-08-09 12:39:22','customer','ï¿½ï¿½ï¿½$u0Hï¿½	mjiOï¿½','5000.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','user'),(3,'2015-08-09','2015-08-09 12:39:23','executor','ï¿½ï¿½Y9ï¿½l.F%ï¿½ï¿½Ê¿ï¿½','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','0.00','user');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

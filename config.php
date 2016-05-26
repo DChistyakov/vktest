@@ -22,3 +22,4 @@ $config['table']['session'] = '`vk_sessions`.`session`';
 
 // system tax percent
 $config['tax'] = 10;
+
